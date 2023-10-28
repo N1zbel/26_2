@@ -1,0 +1,66 @@
+[
+    {
+        "model": "course.course",
+        "pk": 1,
+        "fields": {
+            "title": "курс 1",
+            "preview": "course/preview1.jpg",
+            "description": "Описание курса 1"
+        }
+    },
+    {
+        "model": "course.course",
+        "pk": 2,
+        "fields": {
+            "title": "курс 2",
+            "preview": "course/preview2.jpg",
+            "description": "Описание курса 2"
+        }
+    },
+    {
+        "model": "course.lesson",
+        "pk": 1,
+        "fields": {
+            "title": "урок 1",
+            "description": "Описание урока 1",
+            "preview": "lesson/preview1.jpg",
+            "url": "https://example.com/lesson1",
+            "course": 1
+        }
+    },
+    {
+        "model": "course.lesson",
+        "pk": 2,
+        "fields": {
+            "title": "урок 2",
+            "description": "Описание урока 2",
+            "preview": "lesson/preview2.jpg",
+            "url": "https://example.com/lesson2",
+            "course": 2
+        }
+    },
+    {
+        "model": "course.payment",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "date": "2023-10-27",
+            "course": 1,
+            "lesson": null,
+            "amount": 100.0,
+            "payment_method": "cash"
+        }
+    },
+    {
+        "model": "course.payment",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "date": "2023-10-28",
+            "course": 2,
+            "lesson": null,
+            "amount": 75.0,
+            "payment_method": "transfer"
+        }
+    }
+]
