@@ -1,12 +1,17 @@
 from django.db import models
+from django.conf import settings
 
 from users.models import User
+
+
+NULLABLE = {'blank': True, 'null': True}
 
 
 class Course(models.Model):
     title = models.CharField(max_length=20, verbose_name='Название')
     preview = models.ImageField(upload_to='course/', verbose_name='Превью(картинка)', null=True)
     description = models.TextField(verbose_name='Описание')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, **NULLABLE)
 
     def __str__(self):
         return f'{self.title}'
@@ -18,6 +23,7 @@ class Lesson(models.Model):
     preview = models.ImageField(upload_to='lesson/', verbose_name='Превью(картинка)', null=True)
     url = models.URLField(verbose_name='Ссылка на видео')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс")
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, **NULLABLE)
 
     def __str__(self):
         return f'{self.title}'
@@ -26,9 +32,9 @@ class Lesson(models.Model):
 class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField()
-    course = models.ForeignKey('course.Course', on_delete=models.CASCADE, null=True, blank=True,
+    course = models.ForeignKey('course.Course', on_delete=models.CASCADE, **NULLABLE,
                                verbose_name="оплаченный курс")
-    lesson = models.ForeignKey('course.Lesson', on_delete=models.CASCADE, null=True, blank=True,
+    lesson = models.ForeignKey('course.Lesson', on_delete=models.CASCADE, **NULLABLE,
                                verbose_name="оплаченный урок")
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_method = models.CharField(max_length=20,
