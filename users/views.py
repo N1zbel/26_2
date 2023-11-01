@@ -1,3 +1,20 @@
-from django.shortcuts import render
+from rest_framework import status, viewsets
+from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import login
+from .serializers import UserLoginSerializer, UserSerializer
 
-# Create your views here.
+
+class UserLoginViewSet(viewsets.ViewSet):
+    serializer_class = UserLoginSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.validated_data['user']
+        login(request, user)
+        token, created = Token.objects.get_or_create(user=user)
+        user_serializer = UserSerializer(user)
+
+        return Response({'token': token.key, 'user': user_serializer.data}, status=status.HTTP_200_OK)
