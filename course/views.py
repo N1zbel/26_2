@@ -6,7 +6,7 @@ from .models import Course, Lesson, Payment
 from .serializers import CourseSerializer, LessonSerializer, PaymentSerializer
 from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from permissions import IsOwner, IsModerator
+from course.permissions import IsOwner, IsModerator
 
 
 class LessonListAPIView(ListAPIView):
