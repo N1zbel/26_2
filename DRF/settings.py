@@ -3,6 +3,8 @@ from datetime import timedelta
 
 from dotenv import load_dotenv
 from pathlib import Path
+import sys
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,10 +31,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework',
-    'rest_framework_simplejwt',
     'users',
     'course',
+    'rest_framework',
+    'rest_framework_simplejwt',
+
 
 ]
 
@@ -77,6 +80,8 @@ DATABASES = {
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
     }
 }
+if 'test' in sys.argv or 'test\_coverage' in sys.argv:
+    DATABASES['default']['NAME'] = ':memory:'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
