@@ -100,7 +100,16 @@ class CourseViewSet(viewsets.ModelViewSet):
         return [permission() for permission in action_permissions.get(self.action, default_permissions)]
 
 
-class PaymentListView(generics.ListAPIView):
+class PaymentViewSet(viewsets.ModelViewSet):
+    """
+           Представление для взаимодействия с платежом.
+
+           Атрибуты:
+               queryset: Набор объектов платежей.
+               serializer_class: Сериализатор для преобразования объектов платежей в JSON и наоборот.
+               filter_backends: Список используемых бэкендов для фильтра.
+               filterset_class: Фильтр для платежей.
+    """
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
     filter_backends = [DjangoFilterBackend]
