@@ -12,6 +12,14 @@ from course.permissions import IsOwner, IsModerator
 
 
 class LessonListAPIView(ListAPIView):
+    """
+            Представление для получения списка всех уроков.
+
+            Атрибуты:
+                serializer_class : Сериализатор для преобразования объектов урока в формат JSON.
+                queryset : Набор объектов уроков, используемых для построения списка.
+                pagination_class : Пагинатор, для отображения уроков на странице.
+    """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated]
@@ -19,28 +27,62 @@ class LessonListAPIView(ListAPIView):
 
 
 class LessonCreateAPIView(CreateAPIView):
+    """
+            Представление для создания нового урока.
+
+            Атрибуты:
+                serializer_class : Сериализатор для преобразования JSON в объект урока.
+    """
     serializer_class = LessonSerializer
     permission_classes = [IsAdminUser]
 
 
 class LessonDestroyAPIView(DestroyAPIView):
+    """
+            Представление для удаления урока.
+
+            Атрибуты:
+                queryset: Набор уроков, для поиска урока, который требуется удалить.
+    """
     queryset = Lesson.objects.all()
     permission_classes = [IsOwner | IsAdminUser]
 
 
 class LessonUpdateAPIView(UpdateAPIView):
+    """
+            Представление для обновления урока.
+
+            Атрибуты:
+                serializer_class: Сериализатор для преобразования JSON в объект урока.
+                queryset: Набор уроков, для поиска урока, который требуется обновить.
+    """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsOwner | IsModerator | IsAdminUser]
 
 
 class LessonRetrieveAPIView(RetrieveAPIView):
+    """
+            Представление на получение деталей урока.
+
+            Атрибуты:
+                serializer_class: Сериализатор для преобразования объекта урока в JSON.
+                queryset: Набор уроков, для поиска урока, и получение его детализации.
+    """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsOwner | IsModerator | IsAdminUser]
 
 
 class CourseViewSet(viewsets.ModelViewSet):
+    """
+            ViewSet для взаимодействия с моделью курс.
+
+            Атрибуты:
+                queryset : Набор курсов, включая связанные уроки.
+                serializer_class : Сериализатор для преобразования объектов курса в JSON и наоборот.
+                pagination_class : Пагинатор, для отображения курсов.
+    """
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     pagination_class = CoursePaginator
@@ -67,6 +109,17 @@ class PaymentListView(generics.ListAPIView):
 
 
 class SubscribeCourseView(generics.CreateAPIView):
+    """
+        Создает подписку на выбранный курс.
+
+        Параметры:
+            course_id : Идентификатор курса.
+
+        Returns:
+            Response: Объект ответа с информацией о результате операции.
+                HTTP_400_BAD_REQUEST: Подписка уже есть.
+                HTTP_201_CREATED: Вы подписались на курс.
+    """
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
     permission_classes = [IsAuthenticated]
@@ -86,6 +139,16 @@ class SubscribeCourseView(generics.CreateAPIView):
 
 
 class UnsubscribeCourseView(generics.DestroyAPIView):
+    """
+        Удаляет подписку на выбранный курс.
+
+        Параметры:
+            course_id : Идентификатор курса.
+
+        Returns:
+            Response: Ответ результата операции.
+                HTTP_200_OK: Подписка удалена.
+        """
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
     permission_classes = [IsAuthenticated]
