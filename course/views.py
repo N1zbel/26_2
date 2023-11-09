@@ -100,7 +100,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         return [permission() for permission in action_permissions.get(self.action, default_permissions)]
 
 
-class PaymentViewSet(viewsets.ModelViewSet):
+class PaymentListAPIView(generics.ListAPIView):
     """
            Представление для взаимодействия с платежом.
 
@@ -112,7 +112,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
     """
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    filter_backends = [DjangoFilterBackend]
+    # filter_backends = [DjangoFilterBackend]
     filterset_class = PaymentFilter
     permission_classes = [IsAuthenticated]
 
