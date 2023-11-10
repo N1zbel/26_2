@@ -9,6 +9,7 @@ from .serializers import CourseSerializer, LessonSerializer, PaymentSerializer, 
 from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from course.permissions import IsOwner, IsModerator
+from .tasks import course_update_mail
 
 
 class LessonListAPIView(ListAPIView):
@@ -86,6 +87,10 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     pagination_class = CoursePaginator
+
+    def perform_update(self, serializer):
+        updated_course = serializer.save()
+        course_update_mail(updated_course)
 
     def get_permissions(self):
         action_permissions = {
