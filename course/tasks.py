@@ -9,7 +9,7 @@ from .models import User, Course
 
 
 @shared_task
-def course_update_mail(course_id: int) -> None:
+def course_update_mail(course_id: int, obj=None) -> None:
     course = Course.objects.get(pk=course_id)
 
     recipient_list = [
